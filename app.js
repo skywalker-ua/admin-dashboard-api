@@ -19,13 +19,13 @@ app.use(cors());
 app.use(adminRoutes);
 
 //Connect to MySQL database
-sequelize   
-    .sync()
-    .then(result => {
-        console.log('Connected');
-    })
-    .catch(err => {
-        console.log(err);
-    });
+// sequelize   
+//     .sync()
+//     .then(result => {
+//         console.log('Connected');
+//     })
+//     .catch(err => {
+//         console.log(err);
+//     });
 
 app.listen(5000);
