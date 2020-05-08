@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 // const sequelize = require('./util/database');
 const adminRoutes = require('./routes/admin');
 // const cors = require('cors');
-
+const port = process.env.PORT || 5000;
 // Models
 // const Order = require('./models/Order');
 // const Product = require('./models/Product');
@@ -28,4 +28,4 @@ app.use(adminRoutes);
 //         console.log(err);
 //     });
 
-app.listen(5000);
+app.listen(port);
