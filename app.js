@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 // const sequelize = require('./util/database');
 const adminRoutes = require('./routes/admin');
-// const cors = require('cors');
+const cors = require('cors');
 const port = process.env.PORT || 5000;
 // Models
 // const Order = require('./models/Order');
