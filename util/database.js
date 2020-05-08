@@ -1,13 +1,17 @@
 const Sequelize = require('sequelize');
 
 const sequelize = new Sequelize(
-    'chemiplast_data',
-    'root',
-    'nazarino203',
-    {
-        'dialect': 'mysql',
-        'host': 'localhost'
-    }
-);
+    'mysql://b7e4a873388d76:31943d47@us-cdbr-east-06.cleardb.net/heroku_5c9556ddcb17cc9?reconnect=true'
+)
+
+// const sequelize = new Sequelize(
+//     'chemiplast_data',
+//     'root',
+//     'nazarino203',
+//     {
+//         'dialect': 'mysql',
+//         'host': 'localhost'
+//     }
+// );
 
 module.exports = sequelize;
