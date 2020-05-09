@@ -10,9 +10,11 @@ const Product = sequelize.define('products', {
     primaryKey: true
 },
   name: Sequelize.STRING,
+  imgUrl: Sequelize.STRING,
   sku: Sequelize.STRING,
   category: Sequelize.STRING,
-  price: Sequelize.INTEGER
+  price: Sequelize.INTEGER,
+  quantity: Sequelize.INTEGER
 });
 
 module.exports = Product;
