@@ -128,11 +128,12 @@ exports.postLogin = (req, res, next) => {
 };
 
 exports.postSignup = (req, res, next) => {
-    const name = req.body.data.formData.name;
-    const surname = req.boy.data.formData.surname;
-    const email = req.body.data.formData.signupEmail;
-    const password = req.body.data.formData.signupPassword;
-    const id = req.body.data.formData.id;
+    const userData = JSON.parse(req.body.data.formData);
+    const name = userData.name;
+    const surname = userData.surname;
+    const email = userData.signupEmail;
+    const password = userData.signupPassword;
+    const id = userData.id;
     User.findOrCreate({ where: { 
         email: email,
     },
