@@ -132,7 +132,7 @@ exports.postSignup = (req, res, next) => {
     const surname = req.boy.data.formData.surname;
     const email = req.body.data.formData.signupEmail;
     const password = req.body.data.formData.signupPassword;
-    const id = uuid();
+    const id = uuid(options.random);
     User.findOrCreate({ where: { 
         email: email,
     },
