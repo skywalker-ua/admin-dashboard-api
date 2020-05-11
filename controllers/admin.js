@@ -102,3 +102,14 @@ exports.updateProduct = (req, res, next) => {
     })
     .catch(err => console.log(err));
 }
+
+
+// Auth Routes
+
+exports.postLogin = (req, res, next) => {
+    res.send('Login');
+};
+
+exports.postSignup = (req, res, next) => {
+    res.send('Signup');
+}

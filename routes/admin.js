@@ -9,7 +9,9 @@ router.use((req, res, next) => {
     next();
 })
 router.get('/', adminController.getHome);
-router.get('/orders', adminController.getOrders);
+router.post('/login', adminController.postLogin);
+router.post('/signup', adminController.postSignup);
+router.get('/orders', adminController.getOrders);;
 router.get('/products', adminController.getProducts);
 router.get('/products/:productId', adminController.getProduct);
 router.post('/products/delete', adminController.deleteProduct);
