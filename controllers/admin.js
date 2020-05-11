@@ -1,7 +1,7 @@
 const Order = require('../models/Order');
 const Product = require('../models/Product');
 const User = require('../models/User');
-const { v4: uuid } = require('uuid');
+
 exports.getHome = (req, res, next) => {
     res.send('Hi!');
 };
@@ -132,7 +132,7 @@ exports.postSignup = (req, res, next) => {
     const surname = req.boy.data.formData.surname;
     const email = req.body.data.formData.signupEmail;
     const password = req.body.data.formData.signupPassword;
-    const id = uuid(options.random);
+    const id = req.body.data.formData.id;
     User.findOrCreate({ where: { 
         email: email,
     },
