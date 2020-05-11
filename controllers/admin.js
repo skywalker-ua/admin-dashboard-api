@@ -1,6 +1,7 @@
 const Order = require('../models/Order');
 const Product = require('../models/Product');
-
+const User = require('../models/User');
+const { v4: uuid } = require('uuid');
 exports.getHome = (req, res, next) => {
     res.send('Hi!');
 };
@@ -61,8 +62,10 @@ exports.postProduct = (req, res, next) => {
         }})
         .then(([user, created]) => {
             console.log(user)
-            if (created) {
-                console.log('User aleady exists');
+            if (!created) {
+                console.log('Product aleady exists');
+            } else {
+                console.log('New Product was created')
             }
         })
         .catch(err => console.log(err));
@@ -96,7 +99,7 @@ exports.updateProduct = (req, res, next) => {
         category: formData.category,
         price: formData.price,
         quantity: formData.qty
-    }, {where: { id: prodId } } )
+    }, { where: { id: prodId } } )
     .then(() => {
         res.send({edited: true});
     })
@@ -107,9 +110,42 @@ exports.updateProduct = (req, res, next) => {
 // Auth Routes
 
 exports.postLogin = (req, res, next) => {
-    res.send('Login');
+    const email = req.body.data.formData.email;
+    const password = req.body.data.formData.password;
+    User.findByPk(email)
+    .then(user => {
+        if (!user) {
+            console.log('User Not found');
+            res.send('User not found');
+        } else {
+            if (user.password === password) {
+                console.log('Logged In')
+                res.send('Logged In')
+            }
+        }
+    })
 };
 
 exports.postSignup = (req, res, next) => {
-    res.send('Signup');
+    const name = req.body.data.formData.name;
+    const surname = req.boy.data.formData.surname;
+    const email = req.body.data.formData.email;
+    const password = req.body.data.formData.password;
+    const id = uuid();
+    User.findOrCreate({ where: { 
+        email: email,
+    },
+        defaults: {
+            name: name,
+            surname: surname,
+            password: password,
+            id: id
+        }})
+    .then(([user, created]) => {
+        if (!created) {
+            console.log('User with that email already exist')
+        } else {
+            res.send(user);
+        }
+    })
 }
