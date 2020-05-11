@@ -120,10 +120,11 @@ exports.postLogin = (req, res, next) => {
         } else {
             if (user.password === password) {
                 console.log('Logged In')
-                res.send('Logged In')
             }
         }
     })
+    .catch(err => console.log(err))
+    res.send('Logged In')
 };
 
 exports.postSignup = (req, res, next) => {
@@ -143,9 +144,13 @@ exports.postSignup = (req, res, next) => {
         }})
     .then(([user, created]) => {
         if (!created) {
-            console.log('User with that email already exist')
+            res.send('User exsist', user)
         } else {
             res.send(user);
         }
     })
+    .catch(err => {
+        console.log(err)
+        res.send(err);
+    });
 }
