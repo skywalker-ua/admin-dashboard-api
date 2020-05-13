@@ -1,6 +1,7 @@
 const Order = require('../models/Order');
 const Product = require('../models/Product');
 const User = require('../models/User');
+const bcrypt = require('bcrypt');
 
 exports.getHome = (req, res, next) => {
     res.send('Hi!');
@@ -108,50 +109,57 @@ exports.updateProduct = (req, res, next) => {
 
 
 // Auth Routes
-
+exports.postSignup = (req, res, next) => {
+    const formData = req.body.data.formData;
+    const name = formData.name;
+    const email = formData.signupEmail;
+    const surname = formData.surname;
+    const password = formData.signupPassword;
+    const id = Math.floor(Math.random() * 1000);
+    bcrypt.hash(password, 12)
+        .then(hashedPassword => {
+            User.findOrCreate({
+                where: {
+                    email: email
+                },
+                defaults: {
+                    name: name,
+                    surname: surname,
+                    password: hashedPassword,
+                    id: id
+                }
+            })
+        })
+        .then(([user, created]) => {
+            if (created) {
+                return res.status(201).send(user);
+            } else {
+                return res.status(409).send('This user alerady exsits');
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        })
+}
 exports.postLogin = (req, res, next) => {
     const email = req.body.data.formData.email;
     const password = req.body.data.formData.password;
-    User.findByPk(email)
-    .then(user => {
-        if (!user) {
-            console.log('User Not found');
-            res.send('User not found');
-        } else {
-            if (user.password === password) {
-                console.log('Logged In')
-            }
-        }
+    User.findOne({
+        where: {email: email}
     })
-    .catch(err => console.log(err))
-    res.send('Logged In')
+    .then(user => {
+        bcrypt.compare(password, user.password)
+            .then(doMatch => {
+                if (doMatch) {
+                    return res.status(200).json({user: user});
+                }
+                res.status(400).end();
+            })
+            .catch(err => {
+                console.log(err)
+                res.status(404).end();
+            });
+    })
+    .catch(error => console.log(error));
 };
 
-exports.postSignup = (req, res, next) => {
-    const userData = JSON.parse(req.body.data.formData);
-    const name = userData.name;
-    const surname = userData.surname;
-    const email = userData.signupEmail;
-    const password = userData.signupPassword;
-    const id = userData.id;
-    User.findOrCreate({ where: { 
-        email: email,
-    },
-        defaults: {
-            name: name,
-            surname: surname,
-            password: password,
-            id: id
-        }})
-    .then(([user, created]) => {
-        if (!created) {
-            res.send('User exsist', user)
-        } else {
-            res.send(user);
-        }
-    })
-    .catch(err => {
-        console.log(err)
-        res.send(err);
-    });
-}
