@@ -1,7 +1,10 @@
 const express = require('express');
 
 const adminController = require('../controllers/admin');
+const authController = require('../controllers/auth');
 const router = express.Router();
+
+const authenticateRoute = require('../middleware/auth');
 
 router.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
@@ -9,10 +12,10 @@ router.use((req, res, next) => {
     next();
 })
 router.get('/', adminController.getHome);
-router.post('/login', adminController.postLogin);
-router.post('/signup', adminController.postSignup);
+router.post('/login', authController.postLogin);
+router.post('/signup', authController.postSignup);
 router.get('/orders', adminController.getOrders);;
-router.get('/products', adminController.getProducts);
+router.get('/products', authenticateRoute, adminController.getProducts);
 router.get('/products/:productId', adminController.getProduct);
 router.post('/products/delete', adminController.deleteProduct);
 router.patch('/products/update', adminController.updateProduct);
