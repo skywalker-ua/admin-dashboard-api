@@ -47,12 +47,13 @@ exports.postLogin = (req, res, next) => {
         bcrypt.compare(password, user.password)
         .then(doMatch => {
             if (doMatch) {
-                const accessToken = jwt.sign({user: user}, process.env.SECRET, { expiresIn: '7d'});
+                return res.status(200).send('Logged In');
+                // let accessToken = jwt.sign({user: user}, process.env.SECRET, { expiresIn: '7d'});
                 // res.cookie('token', accessToken );
-                return res.status(200).json({
-                    user: user,
-                    token: accessToken
-                });
+                // return res.status(200).json({
+                //     user: user,
+                //     token: accessToken
+                // });
                 // return res.status(200).json({user: user});
             }
             res.status(400).end('Password not match');
