@@ -48,13 +48,16 @@ exports.postLogin = (req, res, next) => {
         .then(doMatch => {
             if (doMatch) {
                 
-                // let accessToken = jwt.sign({user: user}, process.env.SECRET, { expiresIn: '7d'});
-                // res.cookie('token', accessToken );
-                return res.json({
-                    user: user,
-                    // token: accessToken
-                });
-                // return res.status(200).json({user: user});
+                jwt.sign({user: user}, process.env.SECRET, { expiresIn: '7d'})
+                    .then(token => {
+                        return res.json({
+                            user: user,
+                            token: token
+                        })
+                    })
+                    .catch((error) => {
+                        return res.send('Cannot generate token');
+                    })
             }
             res.status(400).end('Password not match');
         })
