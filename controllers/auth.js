@@ -38,39 +38,31 @@ exports.postSignup = (req, res, next) => {
         })
 }
 exports.postLogin = (req, res, next) => {
-    const formData = req.body.formData;
-    const email = formData.email;
-    const password = formData.password;
+    const email = req.body.data.formData.email;
+    const password = req.body.data.formData.password;
     User.findOne({
         where: {email: email}
     })
     .then(user => {
-        if (!user) {
-            return res.send('Not Found User');
-        }
         bcrypt.compare(password, user.password)
-            .then(doMatch => {
-                if (doMatch) {
-                    const accessToken = jwt.sign({user: user}, process.env.SECRET, { expiresIn: '7d'});
-                    // res.cookie('token', accessToken );
-                    return res.status(200).json({
-                        user: user,
-                        token: accessToken
-                    });
-                    // return res.status(200).json({user: user});
-                }
-                return res.status(400).end('Password did not match');
-            })
-            .catch(err => {
-                console.log(err)
-                return res.status(404).end();
-            });
-        
+        .then(doMatch => {
+            if (doMatch) {
+                const accessToken = jwt.sign({user: user}, process.env.SECRET, { expiresIn: '7d'});
+                // res.cookie('token', accessToken );
+                res.status(200).json({
+                    user: user,
+                    token: accessToken
+                });
+                // return res.status(200).json({user: user});
+            }
+            res.status(400).end();
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(404).end();
+        });
     })
-    .catch(error => {
-        console.log(error)
-        return res.status(406).send('No user with that email')
-    });
+    .catch(error => console.log(error));
 };
 
 exports.postToken = (req, res, next) => {
