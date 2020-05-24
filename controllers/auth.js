@@ -50,12 +50,12 @@ exports.postLogin = (req, res, next) => {
                 jwt.sign({user: user}, process.env.SECRET, { expiresIn: '7d'}, (err, accessToken) => {
                     if (err) {
                         return res.send("Error Generate", err);
-                    } else {
-                        return res.json({
-                            user: user,
-                            token: accessToken
-                        })
-                    }
+                    } 
+                    return res.json({
+                        user: user,
+                        token: accessToken
+                    })
+                    
                 })
                
             }
