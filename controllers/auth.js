@@ -47,17 +47,14 @@ exports.postLogin = (req, res, next) => {
         bcrypt.compare(password, user.password)
         .then(doMatch => {
             if (doMatch) {
-                
+                let accessToken;
                 jwt.sign({user: user}, process.env.SECRET, { expiresIn: '7d'})
-                    .then(token => {
-                        return res.json({
-                            user: user,
-                            token: token
-                        })
-                    })
-                    .catch((error) => {
-                        return res.send('Cannot generate token');
-                    })
+                    .then(token => accessToken = token)
+                    .catch(err => console.log(err))
+                return res.json({
+                    user: user,
+                    token: accessToken
+                })
             }
             res.status(400).end('Password not match');
         })
