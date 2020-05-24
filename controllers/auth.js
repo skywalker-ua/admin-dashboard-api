@@ -49,15 +49,13 @@ exports.postLogin = (req, res, next) => {
             if (doMatch) {
                 let accessToken;
                 jwt.sign({user: user}, process.env.SECRET, { expiresIn: '7d'}, (err, token) => {
-                    if (err) {
-                        console.log(err);
-                    }
                     accessToken = token;
+                    return res.json({
+                        user: user,
+                        token: accessToken
+                    })
                 })    
-                return res.json({
-                    user: user,
-                    token: accessToken
-                })
+                
             }
             res.status(400).end('Password not match');
         })
