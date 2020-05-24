@@ -69,7 +69,7 @@ exports.postLogin = (req, res, next) => {
     })
     .catch(error => {
         console.log(error)
-        res.status(406).send('No user with that email')
+        return res.status(406).send('No user with that email')
     });
 };
 
