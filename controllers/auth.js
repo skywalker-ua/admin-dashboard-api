@@ -47,12 +47,10 @@ exports.postLogin = (req, res, next) => {
         bcrypt.compare(password, user.password)
         .then(doMatch => {
             if (doMatch) {
-                let accessToken;
                 jwt.sign({user: user}, process.env.SECRET, { expiresIn: '7d'}, (err, token) => {
-                    accessToken = token;
                     return res.json({
                         user: user,
-                        token: accessToken
+                        token: token
                     })
                 })    
                 
