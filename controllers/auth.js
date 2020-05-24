@@ -49,9 +49,9 @@ exports.postLogin = (req, res, next) => {
             if (doMatch) {
                 jwt.sign({user: user}, process.env.SECRET, { expiresIn: '7d'}, (err, accessToken) => {
                     if (err) {
-                        res.send("Error Generate", err);
+                        return res.send("Error Generate", err);
                     } else {
-                        res.json({
+                        return res.json({
                             user: user,
                             token: accessToken
                         })
