@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-exports.authenticateRoute = (req, res, next) => {
+const authenticateRoute = (req, res, next) => {
     const authHeader = req.headers.authorization;
 
     if (authHeader) {
@@ -15,6 +15,9 @@ exports.authenticateRoute = (req, res, next) => {
             next();
         })
     } else {
-        res.sendStatus(401);
+        return res.sendStatus(401);
     }
 }
+
+module.exports = authenticateRoute;
+

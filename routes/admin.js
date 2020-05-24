@@ -8,10 +8,11 @@ const authenticateRoute = require('../middleware/auth');
 
 router.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', '*')
+    res.header('Access-Control-Allow-Headers', '*');
     next();
 })
 router.get('/', adminController.getHome);
+router.post('/token/check', authController.postToken);
 router.post('/login', authController.postLogin);
 router.post('/signup', authController.postSignup);
 router.get('/orders', adminController.getOrders);;

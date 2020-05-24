@@ -25,19 +25,16 @@ exports.postSignup = (req, res, next) => {
                     id: id
                 }
             })
-        })
-        // Receiving user array and Boolean or 'created'
-        // Return created user object if user was created===true else
-        // return error
-        .then(([user, created]) => {
-            if (created) {
-                return res.status(201).send(user);
-            } else {
-                return res.status(409).send('This user alerady exsits');
-            }
-        })
-        .catch(err => {
-            console.log(err);
+            .then(([user, created]) => {
+                if (created) {
+                    return res.status(201).send(user);
+                } else {
+                    return res.status(409).send('This user alerady exsits');
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            })
         })
 }
 exports.postLogin = (req, res, next) => {
@@ -50,10 +47,12 @@ exports.postLogin = (req, res, next) => {
         bcrypt.compare(password, user.password)
         .then(doMatch => {
             if (doMatch) {
-                const accessToken = jwt.sign({user: user}, process.env.SECRET);
+                const accessToken = jwt.sign({user: user}, process.env.SECRET, { expiresIn: '7d'});
+                res.cookie('token', accessToken );
                 res.status(200).json({
-                    accessToken
-                })
+                    user: user,
+                    token: accessToken
+                });
                 // return res.status(200).json({user: user});
             }
             res.status(400).end();
@@ -65,4 +64,18 @@ exports.postLogin = (req, res, next) => {
     })
     .catch(error => console.log(error));
 };
+
+exports.postToken = (req, res, next) => {
+    const token = req.body.data.token;
+    const decoded = jwt.verify(token, process.env.SECRET)
+    const user = decoded.user;
+    if (token) {
+        console.log(decoded);
+        return res.json({user: 
+            { name: user.name, email: user.email, surname: user.surname}
+        })
+    } else {
+        return new Error();
+    }
+}
 
