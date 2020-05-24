@@ -49,20 +49,23 @@ exports.postLogin = (req, res, next) => {
             if (doMatch) {
                 const accessToken = jwt.sign({user: user}, process.env.SECRET, { expiresIn: '7d'});
                 // res.cookie('token', accessToken );
-                res.status(200).json({
+                return res.status(200).json({
                     user: user,
                     token: accessToken
                 });
                 // return res.status(200).json({user: user});
             }
-            res.status(400).end();
+            return res.status(400).end('Password did not match');
         })
         .catch(err => {
             console.log(err)
-            res.status(404).end();
+            return res.status(404).end();
         });
     })
-    .catch(error => console.log(error));
+    .catch(error => {
+        console.log(error)
+        res.status(400).send('No user with that email')
+    });
 };
 
 exports.postToken = (req, res, next) => {
