@@ -55,11 +55,11 @@ exports.postLogin = (req, res, next) => {
                 });
                 // return res.status(200).json({user: user});
             }
-            res.status(400).end();
+            res.status(400).end('Password not match');
         })
         .catch(err => {
             console.log(err)
-            res.status(404).end('Password dont match');
+            res.status(404).end('Cannot compare password');
         });
     })
     .catch(error => {
