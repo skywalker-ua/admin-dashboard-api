@@ -49,7 +49,7 @@ exports.postLogin = (req, res, next) => {
             if (doMatch) {
                 const accessToken = jwt.sign({user: user}, process.env.SECRET, { expiresIn: '7d'});
                 // res.cookie('token', accessToken );
-                res.status(200).json({
+                return res.status(200).json({
                     user: user,
                     token: accessToken
                 });
