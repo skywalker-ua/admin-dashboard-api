@@ -59,10 +59,13 @@ exports.postLogin = (req, res, next) => {
         })
         .catch(err => {
             console.log(err)
-            res.status(404).end();
+            res.status(404).end('Password dont match');
         });
     })
-    .catch(error => console.log(error));
+    .catch(error => {
+        res.status(404).end('No User with this email')
+        console.log(error)
+    });
 };
 
 exports.postToken = (req, res, next) => {
