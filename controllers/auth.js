@@ -48,9 +48,12 @@ exports.postLogin = (req, res, next) => {
         .then(doMatch => {
             if (doMatch) {
                 let accessToken;
-                jwt.sign({user: user}, process.env.SECRET, { expiresIn: '7d'})
-                    .then(token => accessToken = token)
-                    .catch(err => console.log(err))
+                jwt.sign({user: user}, process.env.SECRET, { expiresIn: '7d'}, (err, token) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                    accessToken = token;
+                })    
                 return res.json({
                     user: user,
                     token: accessToken
