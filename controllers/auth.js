@@ -47,7 +47,7 @@ exports.postLogin = (req, res, next) => {
         bcrypt.compare(password, user.password)
         .then(doMatch => {
             if (doMatch) {
-                jwt.sign({user: user}, process.env.SECRET.replace(/\\n/gm, '\n'), { algorithm: 'RS256' }, (err, token) => {
+                jwt.sign({user: user}, process.env.SECRET, { algorithm: 'RS256' }, (err, token) => {
                     return res.json({
                         user: user,
                         err: err.message || 'no errors',
