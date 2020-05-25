@@ -47,14 +47,11 @@ exports.postLogin = (req, res, next) => {
         bcrypt.compare(password, user.password)
         .then(doMatch => {
             if (doMatch) {
-                jwt.sign({user: user}, process.env.SECRET, { algorithm: 'RS256' }, (err, token) => {
-                    return res.json({
-                        user: user,
-                        webToken: token
-                    })
-                    
+                const webToken = jwt.sign({user: user}, process.env.SECRET, { algorithm: 'RS256' })
+                return res.json({
+                    user: user,
+                    token: webToken
                 })
-               
             }
             res.status(400).end('Password not match');
         })
