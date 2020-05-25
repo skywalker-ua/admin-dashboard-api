@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+// const jwt = require('jsonwebtoken');
+const jose = require('jose');
 
 exports.postSignup = (req, res, next) => {
     const formData = req.body.data.formData;
@@ -47,14 +48,22 @@ exports.postLogin = (req, res, next) => {
         bcrypt.compare(password, user.password)
         .then(doMatch => {
             if (doMatch) {
-                jwt.sign({user: user}, process.env.SECRET, { algorithm: 'RS256' }, (err, token) => {
+                const token = jose.JWT.sign(
+                    {user: user},
+                    process.env.SECRET,
+                    { 
+                    algorithm: 'RS256',
+                    expiresIn: '24 hour',
+                    header: {
+                        typ: 'JWT'
+                        },
+                    issuer: `${process.env.API}`,
+                    })
                     
                     return res.json({
                         user: user,
-                        err: err,
                         webToken: token
                     })
-                })
             }
             res.status(400).end('Password not match');
         })
