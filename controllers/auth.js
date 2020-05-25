@@ -50,7 +50,7 @@ exports.postLogin = (req, res, next) => {
                 jwt.sign({user: user}, process.env.SECRET, (err, token) => {
                     return res.json({
                         user: user,
-                        token: token
+                        webToken: token
                     })
                     
                 })
