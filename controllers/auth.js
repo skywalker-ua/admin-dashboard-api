@@ -48,7 +48,7 @@ exports.postLogin = (req, res, next) => {
         .then(doMatch => {
             if (doMatch) {
                 const webToken = jwt.sign({user: user}, process.env.SECRET, { algorithm: 'RS256' })
-                return res.json({
+                res.json({
                     user: user,
                     token: webToken
                 })
