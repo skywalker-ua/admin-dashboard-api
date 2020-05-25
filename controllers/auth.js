@@ -53,8 +53,9 @@ exports.postLogin = (req, res, next) => {
                         token: token
                     })
                 })
+            } else {
+               return res.status(400).end('Password not match');
             }
-            res.status(400).end('Password not match');
         })
         .catch(err => {
             console.log(err)
