@@ -49,9 +49,9 @@ exports.postLogin = (req, res, next) => {
             if (doMatch) {
                 jwt.sign({user: user}, process.env.SECRET, { algorithm: 'RS256' }, (err, token) => {
                     return res.json({
-                    user: user,
-                    err: err.message,
-                    token: token 
+                        user: user,
+                        err: err.message,
+                        token: token 
                     })
                 })
             }
