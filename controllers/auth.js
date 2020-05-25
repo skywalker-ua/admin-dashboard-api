@@ -48,10 +48,12 @@ exports.postLogin = (req, res, next) => {
         .then(doMatch => {
             if (doMatch) {
                 jwt.sign({user: user}, process.env.SECRET, { algorithm: 'RS256' }, (err, token) => {
-                    return res.json({
-                    user: user,
-                    token: token
-                    })
+                    if (token) {
+                        return res.json({
+                        user: user,
+                        token: token
+                        })
+                    }
                 })
             }
             res.status(400).end('Password not match');
