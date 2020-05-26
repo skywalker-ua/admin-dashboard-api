@@ -23,13 +23,13 @@ npm start
 
 - Currently avaiable API routes
 
-**GET => /
-**POST => /token/check
-**POST => /login  
-**POST => /signup
-**GET => /orders
-**GET => /products
-**GET => /products/:productId
-**POST => /products/delete
-**PATCH => /products/update
-**POST => /products/create*
+- GET => /
+- POST => /token/check
+- POST => /login  
+- POST => /signup
+- GET => /orders
+- GET => /products
+- GET => /products/:productId
+- POST => /products/delete
+- PATCH => /products/update
+- POST => /products/create*
