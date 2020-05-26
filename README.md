@@ -21,11 +21,11 @@ npm start
 
 ### Routes
 
-- Currently avaiable API routes
+Currently avaiable API routes
 
 - GET => /
 - POST => /token/check
-- POST => /login  
+- POST => /login 
 - POST => /signup
 - GET => /orders
 - GET => /products
