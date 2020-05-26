@@ -23,7 +23,7 @@ npm start
 
 Currently avaiable API routes
 <br />
-* protected routes
+* (*) protected routes
 
 - GET => /
 - POST => /token/check
