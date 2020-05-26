@@ -71,8 +71,7 @@ exports.postToken = (req, res, next) => {
     const token = req.body.data.token;
     const decoded = jwt.verify(token, process.env.SECRET)
     const user = decoded.user;
-    if (token) {
-        console.log(decoded);
+    if (decoded) {
         return res.json({user: 
             { name: user.name, email: user.email, surname: user.surname}
         })

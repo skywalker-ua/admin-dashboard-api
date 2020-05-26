@@ -15,11 +15,11 @@ router.get('/', adminController.getHome);
 router.post('/token/check', authController.postToken);
 router.post('/login', authController.postLogin);
 router.post('/signup', authController.postSignup);
-router.get('/orders', adminController.getOrders);;
+router.get('/orders',authenticateRoute, adminController.getOrders);;
 router.get('/products', authenticateRoute, adminController.getProducts);
-router.get('/products/:productId', adminController.getProduct);
-router.post('/products/delete', adminController.deleteProduct);
-router.patch('/products/update', adminController.updateProduct);
-router.post('/products/create', adminController.postProduct);
+router.get('/products/:productId',authenticateRoute, adminController.getProduct);
+router.post('/products/delete',authenticateRoute, adminController.deleteProduct);
+router.patch('/products/update',authenticateRoute, adminController.updateProduct);
+router.post('/products/create',authenticateRoute, adminController.postProduct);
 
 module.exports = router;
