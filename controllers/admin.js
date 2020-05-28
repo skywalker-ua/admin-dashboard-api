@@ -10,8 +10,8 @@ exports.getOrders = (req, res, next) => {
     let ordersData = [];
     Order.findAll()
         .then(orders => {
-            console.log(JSON.stringify(orders[0]));
-            ordersData = orders[0];
+            console.log(orders);
+            ordersData = orders;
             res.setHeader('Content-Type', 'application/json');
             res.send(ordersData);
             res.end();

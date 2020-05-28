@@ -47,7 +47,7 @@ exports.postLogin = (req, res, next) => {
         bcrypt.compare(password, user.password)
         .then(doMatch => {
             if (doMatch) {
-                const accessToken = jwt.sign({user: user}, process.env.SECRET, { expiresIn: '1h' })
+                const accessToken = jwt.sign({user: user}, process.env.SECRET, { expiresIn: '30d' })
                 return res.json({
                     user: user,
                     token: accessToken
