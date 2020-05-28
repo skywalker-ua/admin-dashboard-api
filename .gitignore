@@ -1,4 +1,3 @@
 node_modules/
-util/
+/util/
 .env
-util/database.js
