@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { check, validationResult } = require('express-validator');
 
 exports.postSignup = (req, res, next) => {
     const formData = req.body.data.formData;
@@ -40,6 +41,7 @@ exports.postSignup = (req, res, next) => {
 exports.postLogin = (req, res, next) => {
     const email = req.body.data.formData.email;
     const password = req.body.data.formData.password;
+
     User.findOne({
         where: {email: email}
     })
@@ -53,17 +55,16 @@ exports.postLogin = (req, res, next) => {
                     token: accessToken
                 })
             } else {
-               return res.status(400).end('Password not match');
+               return res.status(400).send('No user with such email or password');
             }
         })
         .catch(err => {
             console.log(err)
-            res.status(404).end('Cannot compare password');
+            return res.status(404).send('No user with such email or password');
         });
     })
     .catch(error => {
-        res.status(404).end('No User with this email')
-        console.log(error)
+        return res.status(404).send('No user with such email or password')
     });
 };
 

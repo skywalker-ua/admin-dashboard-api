@@ -10,7 +10,6 @@ exports.getOrders = (req, res, next) => {
     let ordersData = [];
     Order.findAll()
         .then(orders => {
-            console.log(orders);
             ordersData = orders;
             res.setHeader('Content-Type', 'application/json');
             res.send(ordersData);
@@ -19,6 +18,10 @@ exports.getOrders = (req, res, next) => {
         .catch(err => {
             console.log(err);
         });
+}
+
+exports.postOrder = (req, res, next) => {
+    
 }
 
 exports.getProducts = (req, res, next) => {

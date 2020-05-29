@@ -12,10 +12,12 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors());
 app.use(adminRoutes);
 
+
 sequelize   
     .sync()
     .then(result => {
         console.log('Connected');
+        
     })
     .catch(err => {
         console.log(err);
