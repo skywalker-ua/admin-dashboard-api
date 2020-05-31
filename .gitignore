@@ -1,4 +1,15 @@
 node_modules/
 # util/database.js
-util/mailer.js
+# util/mailer.js
 .env
+
+# //Local db 
+# // const sequelize = new Sequelize(
+# //     'chemiplast_data',
+# //     'root',
+# //     'nazarino203',
+# //     {
+# //         'dialect': 'mysql',
+# //         'host': 'localhost'
+# //     }
+# // );
