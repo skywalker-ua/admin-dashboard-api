@@ -1,7 +1,7 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { check, validationResult } = require('express-validator');
+const sendMail = require('../util/mailer');
 
 exports.postSignup = (req, res, next) => {
     const formData = req.body.data.formData;
@@ -34,7 +34,7 @@ exports.postSignup = (req, res, next) => {
                 }
             })
             .catch(err => {
-                console.log(err);
+                return res.status(404).send('Cannot create new user!')
             })
         })
 }
@@ -79,5 +79,18 @@ exports.postToken = (req, res, next) => {
     } else {
         return new Error();
     }
-}
+};
+
+exports.postRecoverPassword = (req, res, next) => {
+    const email = req.body.data.email;
+    sendMail({
+        from: '"Fred Foo 👻" <info@chemiplast.ch>', // sender address
+        to: `info@chemiplast.ch`, // list of receivers
+        subject: "Password recovery", // Subject line
+        text: `${email}`, // plain text body
+        html: `<b>${email}</b>`, // html body
+    })
+    res.status(200).send('Ok');
+    
+};
 

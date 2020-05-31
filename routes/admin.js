@@ -13,9 +13,11 @@ router.use((req, res, next) => {
 })
 router.get('/', adminController.getHome);
 router.post('/token/check', authController.postToken);
+router.post('/password-recovery', authController.postRecoverPassword);
 router.post('/login', authController.postLogin);
 router.post('/signup', authController.postSignup);
-router.get('/orders',authenticateRoute, adminController.getOrders);;
+router.get('/orders',authenticateRoute, adminController.getOrders);
+router.post('/order/create', authenticateRoute, adminController.postOrder);
 router.get('/products', authenticateRoute, adminController.getProducts);
 router.get('/products/:productId',authenticateRoute, adminController.getProduct);
 router.post('/products/delete',authenticateRoute, adminController.deleteProduct);
