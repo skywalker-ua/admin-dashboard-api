@@ -1,7 +1,6 @@
 const Order = require('../models/Order');
 const Product = require('../models/Product');
 
-
 exports.getHome = (req, res, next) => {
     res.send('Hi!');
 };
@@ -21,7 +20,37 @@ exports.getOrders = (req, res, next) => {
 }
 
 exports.postOrder = (req, res, next) => {
-    
+    const order = JSON.parse(req.body.order);
+    const id = order.id;
+    const status = order.status;
+    const product = order.product;
+    const qty = order.qty;
+    const clientName = order.clientName;
+    const clientSurname = order.clientSurname;
+    const clientPhone = order.clientPhone;
+    res.send(order);
+    Order.findOrCreate({ where: {
+        id: id,
+    },
+        defaults: {
+            status: status,
+            qty: qty,
+            clientName: clientName,
+            clientSurname: clientSurname,
+            clientPhone: clientPhone,
+            product: product
+        }})
+        .then(([user, created]) => {
+            console.log(user)
+            if (!created) {
+                console.log('Order with this id already exsits');
+            } else {
+                console.log('Order was created!')
+            }
+        })
+        .catch(err => {
+            console.log(err)
+        });
 }
 
 exports.getProducts = (req, res, next) => {
@@ -107,5 +136,27 @@ exports.updateProduct = (req, res, next) => {
         res.send({edited: true});
     })
     .catch(err => console.log(err));
+};
+
+exports.getCounter = (req, res, next) => {
+    let newOrders = 0;
+    let pendingOrders = 0;
+    let shippingOrders = 0;
+    let completedOrders = 0;
+
+    Order.count({ where: {'status': 'Pending'}})
+        .then(c => {
+            pendingOrders = c;
+            return res.json({
+                newOrders,
+                pendingOrders,
+                shippingOrders,
+                completedOrders
+            })
+        })
+        .catch(err => {
+            console.log(err);
+            return res.status(400).send('Can not count');
+        })
 }
 

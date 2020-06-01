@@ -10,8 +10,10 @@ const Order = sequelize.define('order', {
         primaryKey: true
     },
     clientName: Sequelize.STRING,
+    clientSurname: Sequelize.STRING,
+    product: Sequelize.JSON,
+    qty: Sequelize.STRING,
     clientPhone: Sequelize.STRING,
-    orderTotal: Sequelize.INTEGER,
     status: Sequelize.STRING,
 });
 
