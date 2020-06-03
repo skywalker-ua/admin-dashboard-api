@@ -15,6 +15,7 @@ router.use((req, res, next) => {
 router.get('/', adminController.getHome);
 router.get('/counter', authenticateRoute, adminController.getCounter);
 router.get('/orders', authenticateRoute, adminController.getOrders);
+router.get('/orders/:orderId', authenticateRoute, adminController.getOrder)
 router.post('/orders/create', authenticateRoute, adminController.postOrder);
 router.get('/products', authenticateRoute, adminController.getProducts);
 router.get('/products/:productId', authenticateRoute, adminController.getProduct);

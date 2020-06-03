@@ -19,6 +19,18 @@ exports.getOrders = (req, res, next) => {
         });
 }
 
+exports.getOrder = (req, res, next) => {
+    const orderId = req.params.orderId;
+    Order.findByPk(orderId)
+        .then(response => {
+            res.setHeader('Content-type', 'application/json');
+            res.send(response);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+}
+
 exports.postOrder = (req, res, next) => {
     const order = JSON.parse(req.body.order);
     const id = order.id;
@@ -144,19 +156,42 @@ exports.getCounter = (req, res, next) => {
     let shippingOrders = 0;
     let completedOrders = 0;
 
-    Order.count({ where: {'status': 'Pending'}})
+    Order.count({ where: {'status': 'pending'}})
         .then(c => {
             pendingOrders = c;
-            return res.json({
-                newOrders,
-                pendingOrders,
-                shippingOrders,
-                completedOrders
+        })
+        .then(() => {
+            Order.count({ where: {'status': 'new'}})
+            .then(c => {
+                newOrders = c;
+            })
+            .then(() => {
+                Order.count({ where: {'status': 'completed'}})
+                .then(c => {
+                    completedOrders = c;
+                })
+                .then(() => {
+                    Order.count({ where: {'status': 'shipping'}})
+                    .then(c => {
+                        shippingOrders = c;
+                    })
+                    .then(() => {
+                        return res.json({
+                            newOrders,
+                            pendingOrders,
+                            shippingOrders,
+                            completedOrders
+                        })
+                    })
+                })
             })
         })
         .catch(err => {
             console.log(err);
             return res.status(400).send('Can not count');
         })
+        
 }
+
+
 
