@@ -37,6 +37,9 @@ exports.postSignup = (req, res, next) => {
                 return res.status(404).send('Cannot create new user!')
             })
         })
+        .catch(err => {
+            return res.status(404).send('Cannot use this password');
+        })
 }
 exports.postLogin = (req, res, next) => {
     const email = req.body.data.formData.email;
