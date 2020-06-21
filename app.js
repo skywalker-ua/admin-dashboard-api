@@ -17,7 +17,7 @@ app.use(adminRoutes);
 app.use(authRoutes);
 
 sequelize   
-    .sync({ force: true })
+    .sync()
     .then(result => {
         console.log('Connected');
     })
