@@ -11,7 +11,7 @@ const Order = sequelize.define('order', {
     },
     clientName: Sequelize.STRING,
     clientSurname: Sequelize.STRING,
-    product: Sequelize.DataTypes.STRING,
+    product: Sequelize.DataTypes.JSON,
     qty: Sequelize.STRING,
     clientPhone: Sequelize.STRING,
     status: Sequelize.STRING,
