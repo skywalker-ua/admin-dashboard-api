@@ -40,7 +40,7 @@ exports.postOrder = (req, res, next) => {
     const clientName = order.clientName;
     const clientSurname = order.clientSurname;
     const clientPhone = order.clientPhone;
-    res.send(order);
+
     Order.findOrCreate({ where: {
         id: id,
     },
@@ -52,12 +52,14 @@ exports.postOrder = (req, res, next) => {
             clientPhone: clientPhone,
             product: product
         }})
-        .then(([user, created]) => {
-            console.log(user)
+        .then(([order, created]) => {
+            console.log(order)
             if (!created) {
                 console.log('Order with this id already exsits');
+                return res.status(404).send('Order duplicate!');
             } else {
                 console.log('Order was created!')
+                return res.status(201).send('Order Created!');
             }
         })
         .catch(err => {

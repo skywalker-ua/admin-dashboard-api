@@ -1,7 +1,6 @@
 const Sequelize = require('sequelize');
 
 const sequelize = require('../util/database');
-const Order = require('../models/Order');
 
 const Product = sequelize.define('products', {
   id: {
@@ -17,7 +16,5 @@ const Product = sequelize.define('products', {
   price: Sequelize.INTEGER,
   quantity: Sequelize.INTEGER
 });
-
-Product.hasMany(Order, {as: 'ProductOrders'});
 
 module.exports = Product;

@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
-
 const sequelize = require('../util/database');
+const JsonField = require('sequelize-json');
 
 const Order = sequelize.define('order', {
     id: {
@@ -11,7 +11,7 @@ const Order = sequelize.define('order', {
     },
     clientName: Sequelize.STRING,
     clientSurname: Sequelize.STRING,
-    product: Sequelize.DataTypes.JSON,
+    product: JsonField(sequelize, 'Order', 'product'),
     qty: Sequelize.STRING,
     clientPhone: Sequelize.STRING,
     status: Sequelize.STRING,
